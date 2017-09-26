@@ -22,21 +22,24 @@ xhr.addEventListener('load', function (event) {
     console.log('records.length = ' + records.length);
 
     records.each(function (index) {
-        var header = $(this).find("header");
+//        var header = $(this).find("header");
         var metadata = $(this).find("metadata");
-        console.log("[" + (index + 1) + "]" + ". ------------------------------");
-        console.log("Identifier: " + header.find("identifier").text());
-        console.log("Title: " + metadata.find("dc\\:title").text());
-        console.log("Type: " + metadata.find("dc\\:type").text());
+//        console.log("[" + (index + 1) + "]" + ". ------------------------------");
+//        console.log("Identifier: " + header.find("identifier").text());
+//        console.log("Title: " + metadata.find("dc\\:title").text());
+//        console.log("Type: " + metadata.find("dc\\:type").text());
         var descriptions = metadata.find("dc\\:description");
 //        var desc = descriptions.filter(function () {
 //            return !$(this).text().startsWith("http://");
 //        });
 //        console.log("Description: "+ desc.text());
         var link = descriptions.filter(function () {
-            return $(this).text().startsWith("http://");
+            return $(this).text().startsWith("http://")
+            && $(this).text().toLowerCase().endsWith(".jpg");
         });
-        console.log("Link: " + link.text());
+//        console.log("Link: " + link.text());
+        if (link.text())
+            console.log('"' + link.text() + '",');
     });
 }, false);
 xhr.send();

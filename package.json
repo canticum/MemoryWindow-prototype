@@ -9,8 +9,7 @@
         "jquery":"3.2.1",
         "grunt":"1.0.1",
         "jsdom":"10.1.0",
-        "xml2js":"0.4.19",
-        "image":"1.0.2"
+        "xml2js":"0.4.19"
     },
     "scripts": {"start": "node idealSQL.js"}
 }
