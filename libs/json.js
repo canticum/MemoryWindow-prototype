@@ -23,5 +23,13 @@ module.exports = {
             else
                 console.log(path + " saved.");
         });
+    },
+    Record: function (id, content, img_link, detail_infos) {
+        this.id = id;
+        this.content = content;
+        this.img_link = img_link;
+        this.detail_infos = detail_infos;
+        this.title = detail_infos.title;
+        this.img_link_valid = false;
     }
 };
