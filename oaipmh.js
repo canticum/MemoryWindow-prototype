@@ -3,7 +3,9 @@ const {JSDOM} = jsdom;
 const {window} = new JSDOM('<!DOCTYPE html><html></html>');
 const $ = require('jquery')(window);
 const fs = require("fs");
+
 const xml = require('./libs/xml.js');
+const json = require('./libs/json.js');
 
 var records = [];
 var url = "http://data.digitalculture.tw/taichung/oai?verb=ListRecords&metadataPrefix=oai_dc";
@@ -14,11 +16,16 @@ xml.fetch(url, (data) => {
     });
     var xml_records = $(data).find("record");
     console.log('records.length = ' + xml_records.length);
+    var descriptions = [], titles = [];
     xml_records.each((index, xml_rec) => {
         var record = new xml.Record(
                 $(xml_rec).find("header"),
                 $(xml_rec).find("metadata"));
         records.push(record);
+        if (record.description().length > 0)
+            descriptions.push(record.description());
+        if (record.title().length > 0)
+            titles.push(record.title());
 //        console.log("Identifier: " + record.identifier());
 //        console.log("[" + (index + 1) + "]" + ". ------------------------------");
 //        console.log("Title: " + metadata.find("dc\\:title").text());
@@ -33,4 +40,6 @@ xml.fetch(url, (data) => {
             console.log('"' + link + '",');
         }
     });
+    json.write("data/descriptions.json", descriptions);
+    json.write("data/titles.json", titles);
 });

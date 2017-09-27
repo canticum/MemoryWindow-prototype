@@ -16,9 +16,9 @@ var url = api + encodeURIComponent(selector) + "?limit=" + limit;
 console.log(url);
 
 json.fetch(url, (data) => {
-    fs.mkdir("data", (err) => {
+    fs.mkdir("data/ideaSQL", (err) => {
         if (!err || err.code === 'EEXIST') {
-            json.write('./data/data.json', data);
+            json.write('./data/ideaSQL/data.json', data);
         }
     });
     var records = [], titles = [];
@@ -40,7 +40,7 @@ json.fetch(url, (data) => {
     function next() {
         count--;
         if (count === 0) {
-            json.write('./data/title.json', titles);
+            json.write('./data/ideaSQL/title.json', titles);
             console.log("Total records: " + data.length);
             records.forEach((record) => {
                 console.log("'" + record.title + "',");

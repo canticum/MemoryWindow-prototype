@@ -53,5 +53,11 @@ module.exports = {
                 return $(element).text();
             }).get();
         };
+        this.description = function () {
+            var res = $(this.metadata).find("dc\\:description").filter((index, element) => {
+                return (!$(element).text().startsWith("http://"));
+            });
+            return res.text();
+        };
     }
 };
