@@ -3,27 +3,15 @@ const {JSDOM} = jsdom;
 const {window} = new JSDOM('<!DOCTYPE html><html></html>');
 const $ = require('jquery')(window);
 var request = require('request');
-
 var http = require("http");
 
-//var url = "http://designav.io/api/image?limit=10";
-//
-
-var selector = "#台中 #人生";
-var limit = 1000;
+var selector = "#台中";
+var limit = 200;
 var api = (selector.split(" ").length > 1) ?
         "http://designav.io/api/image/search_multi/" :
         "http://designav.io/api/image/search/";
 var url = api + encodeURIComponent(selector) + "?limit=" + limit;
-//if (selector.split(" ") > 1) {
-//    url = "http://designav.io/api/image/search_multi/"
-//            + encodeURIComponent(selector)
-//            + "?limit=150";
-//} else {
-//    url = "http://designav.io/api/image/search/"
-//            + encodeURIComponent(selector)
-//            + "?limit=1000";
-//}
+console.log(url);
 
 http.get(url, function (res) {
     var body = '';
@@ -35,21 +23,21 @@ http.get(url, function (res) {
         var data = JSON.parse(body);
         var str = JSON.stringify(data);
         var fs = require("fs");
-        fs.writeFile("data/data.json", str, function (err) {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log("The file was saved!");
-//                console.log(body);
-            }
+        fs.mkdir("data", (err) => {
+            if (!err || err.code === 'EEXIST')
+                fs.writeFile("data/data.json", str, function (err) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log("The file was saved!");
+                    }
+                });
         });
-        var links = []
-        data.forEach(function (r, index) {
-            IsValidImageUrl(r.img_link, function (isValid) {
-                links[index] = {
-                    image_link: r.img_link,
-                    link_valid: isValid
-                }
+        var valid_links = [];
+        data.forEach(function (rec) {
+            IsValidImageUrl(rec.img_link, function (isValid) {
+                if (isValid)
+                    valid_links.push(rec.img_link);
                 next();
             });
         });
@@ -57,33 +45,22 @@ http.get(url, function (res) {
         function next() {
             count--;
             if (count === 0) {
-                console.log("Total records: " + links.length);
-                var valid_count = 0;
-                links.forEach(function (link, index) {
-//                    console.log((index + 1) + ".");
-//                    console.log("Image Link: " + link.image_link);
-//                    console.log("Link Valid: " + link.link_valid);
-                    if (link.link_valid)
-                        valid_count++;
-                    console.log("'" + link.image_link + "',");
+                console.log("Total records: " + data.length);
+                valid_links.forEach(function (link) {
+                    console.log("'" + link + "',");
                 });
-                console.log("Valid links: " + valid_count);
-                console.log("Valid percentage: " + (valid_count / links.length * 100) + "%");
+                console.log("Valid links: " + valid_links.length);
+                console.log("Valid percentage: " + (valid_links.length / data.length * 100) + "%");
             }
         }
 //                console.log("Title: " + JSON.parse(r.detail_infos).title);
     });
     function IsValidImageUrl(url, callback) {
         request.get(url, function (error, response, body) {
-            if (!error && response.statusCode == 200) {
-                callback(true);
-            } else {
-                callback(false);
-            }
+            callback(!error && response.statusCode === 200);
         });
     }
-}
-).on('error', function (e) {
+}).on('error', function (e) {
     console.log("Got an error: ", e);
 });
 
