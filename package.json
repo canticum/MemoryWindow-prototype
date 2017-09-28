@@ -1,15 +1,24 @@
 {
-    "name": "Data_Harvester",
+    "name": "MemoryWindowPrototype",
     "version": "1.0.0",
     "keywords": ["util", "functional", "server", "client", "browser"],
     "author": "Jonathan",
     "contributors": [],
     "dependencies": {
         "w3c-xmlhttprequest":"2.1.2",
-        "jquery":"3.2.1",
         "grunt":"1.0.1",
         "jsdom":"10.1.0",
-        "xml2js":"0.4.19"
+        "xml2js":"0.4.19",
+        "serve-static":"1.13.0",
+        "connect":"3.6.5",
+        "express": "^4.15.5",
+        "jquery": "^3.2.1",
+        "socket.io": "^2.0.3",
+        "exif-js":"2.3.0",
+        "blueimp-load-image":"2.17.0"
     },
-    "scripts": {"start": "node idealSQL.js"}
+    "scripts": {"start": "node server.js"},
+    "description": "Windows of Our Memories",
+    "repository":"",
+    "license":"MIT"
 }

@@ -16,7 +16,7 @@ module.exports = {
         });
     },
     write: function (path, content) {
-        var str = JSON.stringify(content);
+        var str = JSON.stringify(content, null, 4);
         fs.writeFile(path, str, (err) => {
             if (err)
                 console.log(err);

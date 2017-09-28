@@ -17,10 +17,10 @@ xml.fetch(url, (data) => {
     var xml_records = $(data).find("record");
     console.log('records.length = ' + xml_records.length);
     var descriptions = [], titles = [];
-    xml_records.each((index, xml_rec) => {
+    xml_records.each(function () {
         var record = new xml.Record(
-                $(xml_rec).find("header"),
-                $(xml_rec).find("metadata"));
+                $(this).find("header"),
+                $(this).find("metadata"));
         records.push(record);
         if (record.description().length > 0)
             descriptions.push(record.description());

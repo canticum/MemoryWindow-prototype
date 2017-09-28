@@ -7,8 +7,8 @@ const fs = require("fs");
 
 const json = require('./libs/json');
 
-var selector = "#台中";
-var limit = 50;
+var selector = "#公園";
+var limit = 150;
 var api = (selector.split(" ").length > 1) ?
         "http://designav.io/api/image/search_multi/" :
         "http://designav.io/api/image/search/";
@@ -42,11 +42,13 @@ json.fetch(url, (data) => {
         if (count === 0) {
             json.write('./data/ideaSQL/title.json', titles);
             console.log("Total records: " + data.length);
-            records.forEach((record) => {
-                console.log("'" + record.title + "',");
-            });
+//            records.forEach((record) => {
+//                console.log("'" + record.title + "',");
+//            });
             console.log("Valid links: " + valid_link_num);
-            console.log("Valid percentage: " + (valid_link_num / data.length * 100) + "%");
+            console.log("Valid percentage: " 
+                    + (valid_link_num / data.length * 100).toFixed(2) 
+                    + "%");
         }
     }
 //                console.log("Title: " + JSON.parse(r.detail_infos).title);
