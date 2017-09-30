@@ -4,7 +4,8 @@ var express = require('express');
 var app = express();
 var path = require("path");
 var server = require('http').createServer(app);
-var port = process.env.port || process.env.npm_package_config_LOCAL_PORT;
+//var port = process.env.port || process.env.npm_package_config_LOCAL_PORT;
+var port = process.env.port || 1337;
 
 var io = require('socket.io')(server);
 io.on('connection', function (client) {
