@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Search</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <img src ="./element/logo.jpg" width="100" height="100" alt="logo"/>
+        <input id="keyword" type="text">
+        <button id="query" type="button">Query</button>
+        <button id="fire" type="button">Fire</button>
+        <script src="jquery/dist/jquery.min.js"></script>
+        <script src="socket.io-client/dist/socket.io.js"></script>
+        <!--<script src="./umbra_data/data.js"></script>-->
+        <script>
+            $(function () {
+                var socket = io({
+                    query: {
+                        role: 'umbra'
+                    }
+                });
+                $('#query').on('click', function (event) {
+                    var text = $('#keyword').val();
+                    socket.emit("query", {"text": text});
+                });
+                $('#fire').on('click', function (event) {
+                    $('#keyword').val('');
+                    socket.emit("fire", {"user": socket.io.engine.id});
+                });
+            });
+
+            function Package(url, text) {
+                this.url = url;
+                this.text = text;
+            }
+        </script>
+    </body>
+</html>

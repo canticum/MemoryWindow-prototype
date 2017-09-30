@@ -5,8 +5,7 @@
         <meta charset="UTF-8">
         <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
         <link rel="icon" href="data:;base64,iVBORw0KGgo="/>
-        <link rel="stylesheet" href="./css/style_2.css"/>
-        <script src="./data/data.js"></script>
+        <link rel="stylesheet" href="./css/style.css"/>
         <script src="exif-js/exif.js"></script>
         <script src="blueimp-load-image/js/load-image.all.min.js"></script>
         <script src="jquery/dist/jquery.min.js"></script>
@@ -14,6 +13,19 @@
         <script src="./js/matrix.js"></script>
         <script src="./js/libs/wrap_div.js"></script>
         <script src="./js/libs/draw_text.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+        <script>
+            const COLUMN = 10, ROW = 5;
+            const CARD_BORDER = 10, BORDER_STYLE = 'inset';
+            const COLOR = {
+                CARD: '#373737', //rgb(55,55,55)
+                BORDER: ['#cecece', '#3333ff']
+            };
+            const FLIP_TIME_OUT = 5000; //ms
+            const LOGO_PATH = "./element/logo.jpg";
+            const LOGO_TOKEN = '@QR_CODE_TOKEN';
+            const UMBRA_URL = 'http://localhost';
+        </script>
     </head>
     <body></body>
 </html>

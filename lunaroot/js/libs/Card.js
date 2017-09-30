@@ -1,12 +1,24 @@
-function Card(id, img, next_img) {
-    this.id = id;
-    this.img = img;
-    this.next_img = next_img;
+/* global LOGO_PATH */
 
-    this.set_next = function (new_img) {
-        if (this.next_img) {
-            img = this.next_img;
+function Card(id, front, back) {
+    this.id = id;
+    this.is_logo = false;
+    this.front_img;
+    this.back_img;
+    if (front)
+        this.front_img = front;
+    else {
+        this.front_img = LOGO_PATH;
+        this.is_logo = true;
+    }
+    if (back)
+        this.back_img = back;
+
+    this.set_next = function (back) {
+        if (back) {
+            if (this.back_img)
+                this.front_img = this.back_img;
+            this.back_img = back;
         }
-        this.next_img = new_img;
     };
 }

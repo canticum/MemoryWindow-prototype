@@ -1,18 +1,18 @@
 function flip(card, side, bg_color, card_border, border_style, border_color) {
-    if (card.next_img) {
+    if (card.back_img) {
         var id = card.id;
-        var path = card.next_img;
-        create_card(path, side, bg_color, (c) => {
-            $(c).addClass("face flip out");
-            var card_element = $("#" + id);
-            card_element.find(".front").toggleClass("in").toggleClass("out");
+        var path = card.back_img;
+        create_card(path, side, bg_color, (card_face) => {
+            $(card_face).addClass("face flip out");
+            var card_div = $("#" + id);
+            card_div.find(".front").toggleClass("in").toggleClass("out");
             setTimeout(() => {
-                card_element.append(c);
-                $(c).toggleClass("in").toggleClass("out");
-                card_element.find(".front").remove();
-                $(c).toggleClass("front");
+                card_div.append(card_face);
+                $(card_face).toggleClass("in").toggleClass("out");
+                card_div.find(".front").remove();
+                $(card_face).toggleClass("front");
                 setTimeout(() => {
-                    card_element.css({
+                    card_div.css({
                         border: card_border + "px "
                                 + border_style + " "
                                 + border_color});

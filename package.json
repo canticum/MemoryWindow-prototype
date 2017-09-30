@@ -2,15 +2,14 @@
     "name": "MemoryWindowPrototype",
     "version": "1.0.0",
     "keywords": ["util", "functional", "server", "client", "browser"],
-    "author": "Jonathan",
-    "contributors": [],
+    "author": "Jonathan Chang, Chun-yien <ccy@musicapoetica.org>",
+    "contributors": [
+        "Steve Kao <steve@fun-la.com>",
+        "Jenghan Hsieh <jenghan.hsieh@gmail.com>"
+    ],
     "dependencies": {
         "w3c-xmlhttprequest":"2.1.2",
-        "grunt":"1.0.1",
         "jsdom":"10.1.0",
-        "xml2js":"0.4.19",
-        "serve-static":"1.13.0",
-        "connect":"3.6.5",
         "express": "^4.15.5",
         "jquery": "^3.2.1",
         "socket.io": "^2.0.3",
@@ -19,6 +18,12 @@
     },
     "scripts": {"start": "node server.js"},
     "description": "Windows of Our Memories",
-    "repository":"",
-    "license":"MIT"
+    "repository": {
+         "type": "git",
+         "url": "https://github.com/DigitalCultureTW/data_harvester.git"
+    },
+    "license":"GPL-3.0",
+    "config":{
+        "LOCAL_PORT":"80"
+    }
 }
