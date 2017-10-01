@@ -1,39 +1,109 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Search</title>
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+        <title>記憶窗櫺 | Window of Memories</title>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <img src ="./element/logo.jpg" width="100" height="100" alt="logo"/>
-        <input id="keyword" type="text">
-        <button id="query" type="button">Query</button>
-        <button id="fire" type="button">Fire</button>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <link rel="stylesheet" href="./css/umbra_style.css"/>
         <script src="jquery/dist/jquery.min.js"></script>
         <script src="socket.io-client/dist/socket.io.js"></script>
-        <!--<script src="./umbra_data/data.js"></script>-->
-        <script>
-            $(function () {
-                var socket = io({
-                    query: {
-                        role: 'umbra'
-                    }
-                });
-                $('#query').on('click', function (event) {
-                    var text = $('#keyword').val();
-                    socket.emit("query", {"text": text});
-                });
-                $('#fire').on('click', function (event) {
-                    $('#keyword').val('');
-                    socket.emit("fire", {"user": socket.io.engine.id});
-                });
+    </head>
+    <body>
+    <center>
+        <table width="100%" border="0" style="width:auto; table-layout: auto;">
+            <tbody>
+                <tr>
+                    <td align="center" colspan="2">
+                        <h1>記憶窗櫺</h1>
+                        <img onload="resizeImage()" src ="./element/logo.jpg" alt="logo"/>
+                    </td>
+                </tr>
+                <tr >
+                    <td height="55px" colspan="2">
+                        <div class="box">
+                            <div class="container-1">
+                                <span class="icon"><i class="fa fa-search"></i></span>
+                                <input id="search" type="search" placeholder="請輸入查詢關鍵字">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div id="message" class="left"></div>
+                    </td>
+                    <td>
+                        <button id="query" class="right" type="button">Query</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </center>
+    <script>
+        var SEARCH_DELAY = 3000;
+        $(function () {
+            var socket = io({
+                query: {
+                    role: 'umbra'
+                }
             });
 
-            function Package(url, text) {
-                this.url = url;
-                this.text = text;
+            $("#search").keyup(function (event) {
+                if (event.keyCode === 13) {
+                    $("#query").click();
+                }
+            });
+            $("#search").focus(function (event) {
+                $("#message").text(null);
+            });
+            $('#query').click(function (event) {
+                var text = $('#search').val().trim();
+                if (text.length > 0)
+                    socket.emit("query", {
+                        client: socket.id,
+                        text: text
+                    });
+            });
+            socket.on('message', function (data) {
+                if (data.user === socket.id) {
+                    console.log(data);
+                    $('#query').attr('disabled', true);
+                    $("#search").attr('disabled', true);
+                    $('#message').text('處理中...');
+                    setTimeout(function () {
+                        $('#query').attr('disabled', false);
+                        $("#search").attr('disabled', false);
+                        $('#message').text(data.message);
+                        $("#search").val(null);
+                    }, SEARCH_DELAY);
+                }
+            });
+        });
+        function resizeImage()
+        {
+            var window_height = document.body.clientHeight;
+            var window_width = document.body.clientWidth;
+            var image_width = document.images[0].width;
+            var image_height = document.images[0].height;
+            var height_ratio = image_height / window_height;
+            var width_ratio = image_width / window_width;
+
+            if (height_ratio > width_ratio)
+            {
+                document.images[0].style.width = "auto";
+                document.images[0].style.height = "75%";
+            } else
+            {
+                document.images[0].style.width = "75%";
+                document.images[0].style.height = "auto";
             }
-        </script>
-    </body>
+            if (document.body.clientWidth > 300)
+            {
+                document.images[0].style.width = "225px";
+                document.images[0].style.height = "225px";
+            }
+        }
+    </script>
+</body>
 </html>

@@ -3,7 +3,7 @@ var TXT_POOL = require("./test_data/data.js").TXT_POOL;
 
 module.exports = {
     getResult: function (data) {
-        var result = new Result(data.text);
+        var result = new Result(data.client, data.text);
 
         // temperary codes --
         var number = parseInt(Math.random() * 10) + 1;
@@ -20,7 +20,8 @@ module.exports = {
     }
 };
 
-function Result(query_string) {
+function Result(client, query_string) {
+    this.client = client;
     this.query_str = query_string;
     this.record_set = [];
 }

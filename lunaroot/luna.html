@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Flip Demo</title>
         <meta charset="UTF-8">
+        <title>記憶窗櫺 | Window of Memories</title>
         <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
-        <link rel="icon" href="data:;base64,iVBORw0KGgo="/>
-        <link rel="stylesheet" href="./css/style.css"/>
+        <link rel="icon" href="/favicon.ico"/>
+        <link rel="stylesheet" href="./css/luna_style.css"/>
         <script src="exif-js/exif.js"></script>
         <script src="blueimp-load-image/js/load-image.all.min.js"></script>
         <script src="jquery/dist/jquery.min.js"></script>
         <script src="socket.io-client/dist/socket.io.js"></script>
+        <script src="qrcode/build/qrcode.js"></script>
         <script src="./js/matrix.js"></script>
         <script src="./js/libs/wrap_div.js"></script>
         <script src="./js/libs/draw_text.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
         <script>
             const COLUMN = 10, ROW = 5;
             const CARD_BORDER = 10, BORDER_STYLE = 'inset';
@@ -23,8 +23,9 @@
             };
             const FLIP_TIME_OUT = 5000; //ms
             const LOGO_PATH = "./element/logo.jpg";
-            const LOGO_TOKEN = '@QR_CODE_TOKEN';
-            const UMBRA_URL = 'http://localhost';
+            const QRCODE_TOKEN = '@QR_CODE_TOKEN';
+            const UMBRA_URL = 'http://wm.localstudies.tw';
+//            const UMBRA_URL = 'http://localhost';
         </script>
     </head>
     <body></body>
