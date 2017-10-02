@@ -14,19 +14,15 @@
         <script src="./js/matrix.js"></script>
         <script src="./js/libs/wrap_div.js"></script>
         <script src="./js/libs/draw_text.js"></script>
-        <script>
-            const COLUMN = 10, ROW = 5;
-            const CARD_BORDER = 10, BORDER_STYLE = 'inset';
-            const COLOR = {
-                CARD: '#373737', //rgb(55,55,55)
-                BORDER: ['#cecece', '#3333ff']
-            };
-            const FLIP_TIME_OUT = 5000; //ms
-            const LOGO_PATH = "./element/logo.jpg";
-            const QRCODE_TOKEN = '@QR_CODE_TOKEN';
-            const UMBRA_URL = 'http://wm.localstudies.tw';
-//            const UMBRA_URL = 'http://localhost';
-        </script>
+        <script src="global.js"></script>
     </head>
-    <body></body>
+    <body>
+        <div class="top-box">
+            <div style="display: table-cell; vertical-align: middle;">
+                <div id="text">
+                    Window of Memories
+                </div>
+            </div>
+        </div>
+    </body>
 </html>

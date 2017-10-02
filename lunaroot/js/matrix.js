@@ -1,18 +1,19 @@
-/* global TXT_POOL, COLUMN, ROW, CARD_BORDER, BORDER_STYLE, COLOR, FLIP_TIME_OUT, LOGO_PATH, UMBRA_URL, QRCODE_TOKEN, qrcodelib */
-function MOD(row) {
-    return (row > 2) ? 1 : ((row === 1) ? 0.72 : 0.95);
-}
+/* global TXT_POOL, COLUMN, ROW, CARD_BORDER, BORDER_STYLE, COLOR, FLIP_TIME_OUT, LOGO_PATH, UMBRA_URL, QRCODE_TOKEN, qrcodelib, PROJECT_TITLE, PROJECT_TITLE_SHORT, TITLE_RATIO, TOP_HEIGHT_RATIO */
+
 $(function () {
     const WT = window.screen.availWidth - 10, HT = window.screen.availHeight;
-    const SIDE = (WT / COLUMN > HT / ROW) ?
-            HT / ROW * MOD(ROW) - CARD_BORDER * 2 :
-            WT / COLUMN - CARD_BORDER * 2;
-    var top_box = document.createElement("div");
-    $(top_box).css({
-        height: (HT - (SIDE + CARD_BORDER * 2) * ROW) / 2,
-        width: (SIDE + CARD_BORDER * 2) * COLUMN
+    var top_height = HT * TOP_HEIGHT_RATIO;
+    const SIDE = (WT / COLUMN > (HT - top_height) / ROW) ?
+            (HT - top_height) / ROW * MOD(ROW) - CARD_BORDER * 2 :
+            WT * MOD(COLUMN) / COLUMN - CARD_BORDER * 2;
+    $(".top-box").find("#text").text(PROJECT_TITLE);
+    var font_size = parseInt((PROJECT_TITLE.length > WT / top_height) ?
+            WT / top_height * TITLE_RATIO : top_height * TITLE_RATIO);
+    $(".top-box").css({
+        height: top_height,
+        width: WT,
+        'font-size': font_size + "px"
     });
-    $("body").prepend(top_box);
     var cards = [];
     var is_logo = COLUMN * ROW;
     $.getScript("./js/libs/Card.js", () => {
@@ -41,17 +42,10 @@ $(function () {
     });
     // initialize cards
     $.getScript("./js/libs/create_card.js", function () {
-//        cards.forEach(function (row) {
-//            row.forEach(function (card) {
-//                var id = card.id;
-//                create_card(card.front_img, SIDE, COLOR.CARD, (card_face) => {
-        create_card(cards[0][0].front_img, SIDE, COLOR.CARD, (card_face) => {
+        create_card(LOGO_PATH, SIDE, COLOR.CARD, (card_face) => {
             $(card_face).addClass("face front flip in");
-//                    $("#" + id).append(card_face);
             $(".card").append(card_face);
         });
-//            });
-//        });
         $(".face").css({width: SIDE, height: SIDE});
     });
     $(".card").css({width: SIDE, height: SIDE}); //, border: CARD_BORDER + "px solid #aaaaaa"
@@ -68,8 +62,10 @@ $(function () {
             this.img_path = img;
             this.content = txt;
         }
+        deal_interval();
 
         socket.on("fire", (data) => {
+            console.log('from ' + data.user);
             deal_card(new Record_Display(null, LOGO_PATH, QRCODE_TOKEN));
         });
 
@@ -95,33 +91,48 @@ $(function () {
                     "(" + replaced + ")");
             var priority = data_pool.get(priority_key);
             deal_card(priority);
-            deal_interval();
+//            if (!showID)
+//                deal_interval();
         });
 
-        var showID;
         function deal_interval() {
-            if (!showID) {
-                showID = setInterval(function () {
-                    var key = data_pool.keys().next().value;
-                    if (key)
-                        deal_card(data_pool.get(key));
-                    else {
-                        clearInterval(showID);
-                        showID = null;
-                    }
-                }, 3000);
-            } else {
-                console.log("Show in process.");
+            var showID;
+//            if (!showID) {
+            showID = setInterval(function () {
+                var key = data_pool.keys().next().value;
+                if (key)
+                    deal_card(data_pool.get(key));
+                else {
+                    deal_card(new Record_Display(null, LOGO_PATH, QRCODE_TOKEN));
+//                        clearInterval(showID);
+//                        showID = null;
+                }
+            }, 3000);
+//            } else {
+//                console.log("Show in process.");
+//            }
+        }
+
+        function all_cards_locked() {
+            for (row = 0; row < ROW; row++) {
+                for (col = 0; col < COLUMN; col++) {
+                    if (!cards[row][col].locked)
+                        return false;
+                }
             }
+            return true;
         }
 
         function deal_card(record) {
+            if (all_cards_locked())
+                return;
             var card, row, col;
             do {
                 row = parseInt(ROW * Math.random());
                 col = parseInt(COLUMN * Math.random());
-//                console.log(row, col);
                 card = cards[row][col];
+                console.log(row, col, card.locked,
+                        (record.content !== QRCODE_TOKEN && !card.is_logo && is_logo > 0));
             } while (card.locked === true ||
                     (record.content !== QRCODE_TOKEN && !card.is_logo && is_logo > 0));
             if (record.img_path === LOGO_PATH) {

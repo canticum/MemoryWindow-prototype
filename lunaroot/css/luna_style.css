@@ -1,5 +1,17 @@
-body{
+html, body {
     background: black;
+    margin: 0; 
+    height: 100%; 
+    overflow: hidden;
+}
+.top-box {
+    /*color: turquoise;*/
+    color: lightgray;
+    font-family: 微軟正黑體;
+    display: table;
+    overflow: hidden;
+    text-align: center;
+    font-weight: bolder;
 }
 .in {
     -webkit-animation-timing-function: ease-out;

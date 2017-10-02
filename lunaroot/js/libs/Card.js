@@ -5,6 +5,7 @@ function Card(id, front, back) {
     this.is_logo = false;
     this.front_img;
     this.back_img;
+    this.locked = false;
     if (front)
         this.front_img = front;
     else {
