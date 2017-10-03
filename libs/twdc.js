@@ -1,51 +1,56 @@
-const xml = require('./xml.js');
-const json = require('./json.js');
+(function () {
+    'use strict';
+    var xml = require('./xml.js')();
+    var {Record} = require('./xml.js')();
+    var {Record_Query} = require('./data.js');
+    const jsdom = require("jsdom");
+    const {JSDOM} = jsdom;
+    const {window} = new JSDOM('<!DOCTYPE html><html></html>');
+    const $ = require('jquery')(window);
+    const cf = require('../config.js').data;
 
-var {twdc_records} = require('./data.js');
-var {Record} = require('./xml.js');
-var {Record_Query} = require('./data.js');
+    module.exports = function (limit, callback) {
+        var methods = {};
+        var dataset = [];
 
-const jsdom = require("jsdom");
-const {JSDOM} = jsdom;
-const {window} = new JSDOM('<!DOCTYPE html><html></html>');
-const $ = require('jquery')(window);
+        methods.refresh = function () {
+            xml.fetch(cf.TWDC.URL, (data) => {
+                var xml_records = $(data).find("record");
 
-var url = "http://data.digitalculture.tw/taichung/oai?verb=ListRecords&metadataPrefix=oai_dc";
-var filetypes = ['jpg', 'png', 'JPG', 'PNG'];
+                xml_records.each(function () {
+                    var record = new Record(
+                            $(this).find("header"),
+                            $(this).find("metadata"));
+                    if (record.link )//&& cf.FILETYPES.indexOf(record.filetype) > -1
+                        dataset.push(record);
+                });
+                console.log("Initializing twdc dataset completed. Total record fetched = "
+                        + dataset.length);
+                callback();
+            });
+        };
 
-module.exports = {
-    refresh,
-    query
-};
+        methods.query = function (text, callback) {
+            var records = [];
+            var n = limit;
+            for (var i = 0; i < dataset.length; i++) {
+                var result = dataset[i].contains(text);
+                if (result) {
+                    n--;
+                    records.push(new Record_Query(
+                            dataset[i].link,
+                            result
+                            ));
+                }
+                if (n === 0)
+                    break;
+            }
+            callback(records);
+        };
 
+        methods.refresh();
+        return methods;
+    };
+}());
 
-function refresh(callback) {
-    twdc_records = [];
-    xml.fetch(url, (data) => {
-        var xml_records = $(data).find("record");
-
-        xml_records.each(function () {
-            var record = new Record(
-                    $(this).find("header"),
-                    $(this).find("metadata"));
-            if (record.link && filetypes.indexOf(record.filetype) > -1)
-                twdc_records.push(record);
-        });
-        callback(twdc_records);
-    });
-}
-
-function query(text) {
-    records = [];
-    if (twdc_records)
-        for (i = 0; i < twdc_records.length; i++) {
-            var result = twdc_records[i].find(text);
-            if (result)
-                records.push(new Record_Query(
-                        twdc_records[i].link,
-                        twdc_records[i].result
-                        ));
-        }
-    return records;
-}
 

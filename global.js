@@ -1,3 +1,4 @@
+
 const PROJECT_SUBTITLE = "一個共築臺中印象的角落";
 const PROJECT_TITLE_SHORT = "記憶窗櫺";
 const PROJECT_TITLE = PROJECT_TITLE_SHORT + "—" + PROJECT_SUBTITLE;
@@ -9,6 +10,8 @@ const COLOR = {
 };
 const FLIP_TIME_OUT = 5000; //ms
 const SYSTEM_LOGO_TIME_OUT = 7000; //ms
+const SHOW_INTERVAL = 2500; //ms
+const SHOW_STAY = 1500; //ms
 const LOGO_PATH = "./element/logo_2.png";
 const QRCODE_TOKEN = '@QR_CODE_TOKEN';
 const UMBRA_URL = 'http://wm.localstudies.tw';
@@ -18,6 +21,8 @@ function MOD(row) {
     return (row > 2) ? 1 : ((row === 1) ? 0.70 : 0.95);
 }
 const SEARCH_DELAY = 3000;
+const TWDC_URL = "http://data.digitalculture.tw/taichung/oai?verb=ListRecords&metadataPrefix=oai_dc";
+const filetypes = ['jpg', 'png', 'JPG', 'PNG'];
 
 module.exports = {
     PROJECT_SUBTITLE,
@@ -34,5 +39,6 @@ module.exports = {
     TITLE_RATIO,
     TOP_HEIGHT_RATIO,
     MOD,
-    SEARCH_DELAY
+    SEARCH_DELAY,
+    filetypes
 };

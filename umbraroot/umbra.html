@@ -82,7 +82,6 @@
                 }
             });
             socket.on('message', function (data) {
-                console.log(SEARCH_DELAY);
                 if (data.user === socket.id) {
                     $('#query').attr('disabled', false);
                     $("#search").attr('disabled', false);
@@ -115,8 +114,6 @@
             {
                 document.images[0].style.width = 300;
                 document.images[0].style.height = 300;
-                console.log(document.body.clientWidth);
-                console.log(document.images[0].width);
             }
             $('.box').css('width', document.images[0].style.width * 1.1);
             $('.container-1').css('width', document.images[0].style.width * 1.1);

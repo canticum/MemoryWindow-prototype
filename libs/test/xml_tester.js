@@ -1,7 +1,8 @@
-var xml = require("../xml.js");
+var xml = require("../xml.js")();
+var cf = require("../../config.js").data;
 
-var url = "http://data.digitalculture.tw/taichung/oai?verb=ListRecords&metadataPrefix=oai_dc";
+//var url = "http://data.digitalculture.tw/taichung/oai?verb=ListRecords&metadataPrefix=oai_dc";
 
-xml.fetch(url, function (data) {
+xml.fetch(cf.TWDC.URL, function (data) {
     console.log(data);
 });

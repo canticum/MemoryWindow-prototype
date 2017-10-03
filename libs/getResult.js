@@ -7,19 +7,28 @@ module.exports = {
     getResult
 };
 
-var limit = 15;
+var limit = 20;
 //twdc.refresh();
 
 function getResult(data, callback) {
     var result = new Result(data.client, data.text);
-    
-//    result.record_set.push(twdc.query(result.query_str));
-    
-    ideasql.query(result.query_str, limit, (ideasql_result) => {
-        console.log(ideasql_result);
-        ideasql_result.forEach(function (r) {
+
+    twdc.query(result.query_str, limit, (twdc_result) => {
+        twdc_result.forEach(function (r) {
             result.record_set.push(r);
         });
+
+        var quota = limit - result.record_set.length;
+        if (quota > 0) {
+            ideasql.query(result.query_str, quota, (ideasql_result) => {
+//        console.log(ideasql_result);
+//        result.record_set.push(ideasql_result);
+                ideasql_result.forEach(function (r) {
+                    result.record_set.push(r);
+                });
+                callback(result);
+            });
+        }
         callback(result);
     });
 }

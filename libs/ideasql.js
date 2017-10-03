@@ -1,77 +1,69 @@
-const json = require('./json.js');
+(function () {
+    const cf = require('../config.js').data;
+    const json = require('./json.js')();
+    const request = require('request');
 
-const jsdom = require("jsdom");
-const {JSDOM} = jsdom;
-const {window} = new JSDOM('<!DOCTYPE html><html></html>');
-const $ = require('jquery')(window);
-const request = require('request');
-const http = require("http");
+    module.exports = function () {
+        var methods = {};
 
-module.exports = {
-    query,
-    getWordbreak
-};
+        methods.query = function (query_text, limit, callback) {
+            var api = (query_text.split(" ").length > 1) ?
+                    cf.IDEASQL.MULTI_URL : cf.IDEASQL.URL;
+            var url = api + encodeURIComponent(query_text) + "?limit=" + limit;
+            console.log(decodeURIComponent(url));
 
-function query(query_text, limit, callback) {
-
-    var api = 
-            /*(query_text.split(" ").length > 1) ?
-            "http://designav.io/api/image/search_multi/" : */
-            "http://designav.io/api/image/search/";
-
-    var url = api + encodeURIComponent(query_text) + "?limit=" + limit;
-    console.log(url);
-
-    var records = [];
-    var count = 0;
-    json.fetch(url, (data) => {
-        console.log("Total records: " + data.length);
-        data.forEach((rec) => {
-            var record = new json.Record(rec.id, rec.content,
-                    rec.img_link, JSON.parse(rec.detail_infos));
-            records.push(record);
-            IsValidImageUrl(rec.img_link, (isValid) => {
-                record.img_link_valid = isValid;
-                next();
-            });
-        });
-        function next() {
-            count++;
-            if (count === data.length) {
-                result = [];
-                records.forEach((record) => {
-                    if (record.img_link_valid) {
-                        var text;
-                        if (record.content.includes(query_text))
-                            text = record.content.replace(/\n/g, " ");
-                        else if (record.detail_infos.includes(query_text))
-                            text = record.detail_infos.replace(/\n/g, " ");
-                        result.push({
-                            img_url: record.img_link,
-                            content: text
-                        });
-                    }
+            var records = [];
+            var count = 0;
+            json.fetch(url, (data) => {
+//        console.log("Total records: " + data.length);
+                if (data.length === 0)
+                    next(0);
+                data.forEach((rec) => {
+                    var record = new json.Record(rec.id, rec.content,
+                            rec.img_link, JSON.parse(rec.detail_infos));
+                    records.push(record);
+                    IsValidImageUrl(rec.img_link, (isValid) => {
+                        record.img_link_valid = isValid;
+                        next(1);
+                    });
                 });
-                callback(result);
-            }
-        }
-    });
+                function next(n) {
+                    count += n;
+                    if (count === data.length) {
+                        result = [];
+                        records.forEach((record) => {
+                            if (record.img_link_valid) {
+                                var text = record.title.includes(query_text) ?
+                                        record.title : record.content;
+                                result.push({
+                                    img_url: record.img_link,
+                                    content: text
+                                });
+                            }
+                        });
+                        callback(result);
+                    }
+                }
+            });
+        };
 
-}
+        IsValidImageUrl = function (url, callback) {
+            request.get(url, (error, response, body) => {
+                callback(!error && response.statusCode === 200);
+            });
+        };
 
-function IsValidImageUrl(url, callback) {
-    request.get(url, (error, response, body) => {
-        callback(!error && response.statusCode === 200);
-    });
-}
-
-function getWordbreak(content, callback) {
-    var text = content;
-    var api2 = "http://designav.io/api/image/wordbreak/";
-    var url = api2 + encodeURIComponent(text);
+        methods.getWordbreak = function (content, callback) {
+            var text = content;
+            
+            var url = cf.IDEASQL.WB_URL + encodeURIComponent(text);
 //    console.log(decodeURIComponent(url));
-    (url, function (content) {
-        callback(content);
-    });
-}
+            (url, function (content) {
+                callback(content);
+            });
+        };
+        
+        return methods;
+    };
+}());
 
