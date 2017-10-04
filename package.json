@@ -15,8 +15,7 @@
         "socket.io": "^2.0.3",
         "exif-js":"^2.3.0",
         "blueimp-load-image":"^2.17.0",
-        "qrcode":"^0.9.0",
-        "async":"^2.5.0"
+        "qrcode":"^0.9.0"
     },
     "scripts": {"start": "node server.js"},
     "description": "Windows of Our Memories",

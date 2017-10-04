@@ -45,15 +45,18 @@
             this.filetype = this.link.split(".").pop();
 
             this.contains = function (keyword) {
-                var result;
-                if (this.subjects)
+                var result = '';
+                if (this.subjects.length > 0) {
                     for (var index = 0; index < this.subjects.length; index++) {
                         if (this.subjects[index].includes(keyword))
-                            result = subjects[index];
+                            result = this.subjects[index];
                     }
+                    if (result.length > 0)
+                        result += ':' + this.title + '。' + this.description;
+                }
                 if (this.title.includes(keyword))
-                    result = this.title;
-                if (this.description.includes(keyword))
+                    result = this.title + '。' + this.description;
+                else if (this.description.includes(keyword))
                     result = this.description;
                 return result;
             };

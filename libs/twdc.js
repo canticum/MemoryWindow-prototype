@@ -35,7 +35,7 @@
             var n = limit;
             for (var i = 0; i < dataset.length; i++) {
                 var result = dataset[i].contains(text);
-                if (result) {
+                if (result.length > 0) {
                     n--;
                     records.push(new Record_Query(
                             dataset[i].link,
