@@ -35,6 +35,7 @@ function create_card(img_path, side, bg_color, callback) {
             img_loaded.src = img_transformed.toDataURL("image/png");
 
             img_loaded.onload = function () {
+//                console.log('orientation: ' + orientation);
                 var img_wrapper = wrap_div(img_loaded);
                 $(img_wrapper).addClass("left card_image");
                 var middle = document.createElement("div");
@@ -49,14 +50,13 @@ function create_card(img_path, side, bg_color, callback) {
                 var top_block, bottom_block;
                 var top_margin = (side - img_transformed.height) / 2;
                 var bottom_margin = side - top_margin - img_transformed.height;
-//            console.log(top_margin, bottom_margin);
                 if (top_margin > 1) {
                     create_block(side, top_margin, bg_color, function (block) {
                         top_block = block;
                         $(top_block).addClass("top_block");
                         $(card_face).prepend(top_block).append(middle);
                         mark_finished(1, "top block finished.");
-                        
+
                         create_block(side, bottom_margin, bg_color, function (block) {
                             bottom_block = block;
                             $(bottom_block).addClass("bottom_block");
@@ -64,7 +64,6 @@ function create_card(img_path, side, bg_color, callback) {
                             mark_finished(1, "bottom block finished.");
                         });
                     });
-//                    console.log(side, top_margin);
                 } else {
                     $(card_face).append(middle);
                     mark_finished(2, "top and bottom blocks skipped.");

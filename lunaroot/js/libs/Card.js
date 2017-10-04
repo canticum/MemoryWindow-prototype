@@ -1,4 +1,4 @@
-/* global LOGO_PATH */
+/* global PROJECT */
 
 function Card(id, front, back) {
     this.id = id;
@@ -9,7 +9,7 @@ function Card(id, front, back) {
     if (front)
         this.front_img = front;
     else {
-        this.front_img = LOGO_PATH;
+        this.front_img = PROJECT.LOGO_PATH;
         this.is_logo = true;
     }
     if (back)

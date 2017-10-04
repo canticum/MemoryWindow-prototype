@@ -1,7 +1,7 @@
 (function () {
     'use strict';
-    const http = require('http');
-    const fs = require("fs");
+    var http = require('http');
+    var fs = require("fs");
 
     module.exports = function () {
         var methods = {};
@@ -13,7 +13,11 @@
                     body += chunk;
                 });
                 res.on('end', () => {
-                    callback(JSON.parse(body));
+                    try {
+                        callback(JSON.parse(body));
+                    } catch (err) {
+                        callback(JSON.parse('[]'));
+                    }
                 });
             }).on('error', (e) => {
                 console.log("Got an error: ", e);

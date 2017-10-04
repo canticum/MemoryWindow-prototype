@@ -1,7 +1,8 @@
 (function () {
-    const cf = require('../config.js').data;
-    const json = require('./json.js')();
-    const request = require('request');
+    'use strict';
+    var cf = require('../config.js').DATA;
+    var json = require('./json.js')();
+    var request = require('request');
 
     module.exports = function () {
         var methods = {};
@@ -30,7 +31,7 @@
                 function next(n) {
                     count += n;
                     if (count === data.length) {
-                        result = [];
+                        var result = [];
                         records.forEach((record) => {
                             if (record.img_link_valid) {
                                 var text = record.title.includes(query_text) ?
@@ -47,22 +48,22 @@
             });
         };
 
-        IsValidImageUrl = function (url, callback) {
+        function IsValidImageUrl(url, callback) {
             request.get(url, (error, response, body) => {
                 callback(!error && response.statusCode === 200);
             });
-        };
+        }
 
         methods.getWordbreak = function (content, callback) {
             var text = content;
-            
+
             var url = cf.IDEASQL.WB_URL + encodeURIComponent(text);
 //    console.log(decodeURIComponent(url));
             (url, function (content) {
                 callback(content);
             });
         };
-        
+
         return methods;
     };
 }());

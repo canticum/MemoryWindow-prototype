@@ -1,8 +1,8 @@
 (function () {
     'use strict';
-    const ideasql = require('./ideasql')();
-    const TWDC = require('./twdc');
-    const {Result} = require('./data.js');
+    var ideasql = require('./ideasql')();
+    var TWDC = require('./twdc');
+    var {Result} = require('../config.js').DATA;
 
     module.exports = function (limit, callback) {
         var methods = {};
@@ -17,7 +17,8 @@
                     result.record_set.push(r);
                 });
 
-                var quota = limit - result.record_set.length;
+//                var quota = limit - result.record_set.length;
+                var quota = limit;
                 if (quota > 0) {
                     ideasql.query(result.query_str, quota, (ideasql_result) => {
                         console.log("ideasql_result = " + ideasql_result.length);
@@ -35,3 +36,16 @@
     };
 }());
 
+// var IMG_POOL = require("./test_data/data.js").IMG_POOL;
+//var TXT_POOL = require("./test_data/data.js").TXT_POOL;
+// temperary codes --
+//var number = parseInt(Math.random() * 10) + 1;
+//for (i = 0; i < number; i++) {
+//    var img_index = parseInt(Math.random() * IMG_POOL.length);
+//    var txt_index = parseInt(Math.random() * TXT_POOL.length);
+//    var record = new Record_Query(
+//            IMG_POOL[img_index],
+//            TXT_POOL[txt_index]);
+//    result.record_set.push(record);
+//}
+// temperary codes ^^

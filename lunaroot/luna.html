@@ -16,14 +16,25 @@
         <script src="./js/libs/draw_text.js"></script>
         <script src="./js/libs/card_flip.js"></script>
         <script src="./js/libs/Card.js"></script>
-        <script src="global.js"></script>
-        <!--<script src="config.js"></script>-->
+        <script src="config.js"></script>
+        <script>
+            $(() => {
+                $('title').text(PROJECT.TITLE_MAIN + ' | ' + PROJECT.TITLE_ENGLISH);
+            });
+        </script>
     </head>
     <body>
-        <div class="top-box">
+        <div class="box top center">
             <div style="display: table-cell; vertical-align: middle;">
-                <div id="text">
-                    Window of Memories
+                <div id="title_text">
+                </div>
+            </div>
+        </div>
+        <div id="display">         
+        </div>
+        <div class="box bottom center">
+            <div style="display: table-cell; vertical-align: middle;">
+                <div id="version_text">
                 </div>
             </div>
         </div>

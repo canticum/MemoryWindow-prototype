@@ -1,12 +1,17 @@
-exports.project = {
+var PROJECT = {
     TITLE_MAIN: "記憶窗櫺",
-    SUBTITLE: "一個共築臺中印象的角落",
-    TITLE: this.TITLE_MAIN + "—" + this.SUBTITLE,
-    LOGO_PATH: "./element/logo_2.png"
+    TITLE_ENGLISH: "The Window of Our Memories",
+    SUBTITLE: "共築臺中印象的角落",
+    get TITLE() {
+        return this.TITLE_MAIN + "—" + this.SUBTITLE;
+    },
+    LOGO_PATH: "./element/logo_2.png",
+    VERSION: "0.52-beta"
 };
 
-exports.luna = {
+var LUNA = {
     COLUMN: 8, ROW: 4,
+    FONT: 'Microsoft JhengHei',
     CARD: {
         BORDER_WIDTH: 10,
         BORDER_STYLE: 'inset',
@@ -18,20 +23,31 @@ exports.luna = {
     SHOW_INTERVAL: 2500, //ms
     SHOW_STAY: 1500, //ms
     QRCODE: '@QR_CODE_TOKEN',
+    MIN_LOG: parseInt((LUNA.ROW * LUNA.COLUMN) / 8),
     TITLE_RATIO: 0.6,
     TOP_HEIGHT_RATIO: 0.08,
+    BOTTOM_HEIGHT_RATIO: 0.04,
     MOD: function (row) {
         return (row > 2) ? 1 : ((row === 1) ? 0.70 : 0.95);
+    },
+    Record_Display: function (str, img, txt) {
+        this.query_str = str;
+        this.img_path = img;
+        this.content = txt;
+        this.used = false;
     }
 };
 
-exports.umbra = {
-    URL: 'http://wm.localstudies.tw'
+var UMBRA = {
+    URL: 'http://wm.localstudies.tw',
+    FONT: "DFKai-sb"
 };
 
-exports.data = {
+var DATA = {
     FILETYPES: ['jpg', 'png', 'JPG', 'PNG'],
-    LIMIT: 20,
+    get LIMIT() {
+        return parseInt((LUNA.ROW * LUNA.COLUMN) / 2);
+    },
     TWDC: {
         URL: "http://data.digitalculture.tw/taichung/oai?verb=ListRecords&metadataPrefix=oai_dc"
     },
@@ -39,5 +55,18 @@ exports.data = {
         URL: "http://designav.io/api/image/search/",
         MULTI_URL: "http://designav.io/api/image/search_multi/",
         WB_URL: "http://designav.io/api/image/wordbreak/"
+    },
+    Result: function (client, query_string) {
+        this.client = client;
+        this.query_str = query_string;
+        this.record_set = [];
+    },
+    Record_Query: function (url, text) {
+        this.img_url = url;
+        this.content = text;
     }
 };
+
+if (typeof window === 'undefined') {
+    module.exports = {PROJECT, LUNA, UMBRA, DATA};
+}

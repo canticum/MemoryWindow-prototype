@@ -1,11 +1,11 @@
 (function () {
     'use strict';
-    const jsdom = require("jsdom");
-    const {JSDOM} = jsdom;
-    const {window} = new JSDOM('<!DOCTYPE html><html></html>');
-    const $ = require('jquery')(window);
-    const fs = require("fs");
-    const XMLHttpRequest = require("w3c-xmlhttprequest").XMLHttpRequest;
+    var jsdom = require("jsdom");
+    var {JSDOM} = jsdom;
+    var {window} = new JSDOM('<!DOCTYPE html><html></html>');
+    var $ = require('jquery')(window);
+    var fs = require("fs");
+    var XMLHttpRequest = require("w3c-xmlhttprequest").XMLHttpRequest;
 
     module.exports = function () {
         var methods = {};

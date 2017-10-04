@@ -2,24 +2,30 @@
 <html>
     <head>
         <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-        <title>記憶窗櫺 | Window of Memories</title>
+        <!--        <title>記憶窗櫺 | Window of Memories</title>-->
+        <title></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
         <link rel="stylesheet" href="./css/umbra_style.css"/>
         <script src="jquery/dist/jquery.min.js"></script>
         <script src="socket.io-client/dist/socket.io.js"></script>
-        <script src="global.js"></script>
+        <script src="config.js"></script>
+        <!--        <script src="global.js"></script>-->
         <script>
-            $(function () {
-                $('h1').text(PROJECT_TITLE_SHORT);
-                $('h2').text(PROJECT_SUBTITLE);
-                $('img').attr('src', LOGO_PATH);
+            $(() => {
+                $('title').text(PROJECT.TITLE_MAIN + ' | ' + PROJECT.TITLE_ENGLISH);
+                $('h1').text(PROJECT.TITLE_MAIN);
+                $('h2').text(PROJECT.SUBTITLE);
+                $('h1').css('font-family', PROJECT.FONT);
+                $('h2').css('font-family', PROJECT.FONT);
+                $('.myButton').css('font-family', UMBRA.FONT);
+                $('img').attr('src', PROJECT.LOGO_PATH);
             });
         </script>
     </head>
     <body>
     <center>
-        <table border="0"  width="100%" style="width:auto; table-layout:auto;">
+        <table border="0" style="width:auto; table-layout:auto;">
             <tbody>
                 <tr>
                     <td align="center" colspan="2">
@@ -33,13 +39,11 @@
             <center>
                 <div class="box">
                     <div class="container-1">
-                        <left>
-                            <span class="icon" float="left"><i class="fa fa-search"></i></span>
-                        </left>
+                        <left><span class="icon" ><i class="fa fa-search"></i></span></left>
                         <input id="search" type="search" placeholder="請輸入查詢關鍵字">
                     </div>
                 </div>
-            </center>
+            </center> 
             </td>
             </tr>
             <tr>
@@ -47,7 +51,7 @@
                     <div id="message" class="left"></div>
                 </td>
                 <td>
-                    <button id="query" class="right" type="button">Query</button>
+                    <button id="query" class="right myButton" type="button">送出</button>
                 </td>
             </tr>
             </tbody>

@@ -1,13 +1,14 @@
 (function () {
     'use strict';
+    var jsdom = require("jsdom");
+    var {JSDOM} = jsdom;
+    var {window} = new JSDOM('<!DOCTYPE html><html></html>');
+    var $ = require('jquery')(window);
+
     var xml = require('./xml.js')();
     var {Record} = require('./xml.js')();
-    var {Record_Query} = require('./data.js');
-    const jsdom = require("jsdom");
-    const {JSDOM} = jsdom;
-    const {window} = new JSDOM('<!DOCTYPE html><html></html>');
-    const $ = require('jquery')(window);
-    const cf = require('../config.js').data;
+    var {Record_Query} = require('../config.js').DATA;
+    var cf = require('../config.js').DATA;
 
     module.exports = function (limit, callback) {
         var methods = {};
@@ -21,7 +22,7 @@
                     var record = new Record(
                             $(this).find("header"),
                             $(this).find("metadata"));
-                    if (record.link )//&& cf.FILETYPES.indexOf(record.filetype) > -1
+                    if (record.link && cf.FILETYPES.indexOf(record.filetype) > -1)
                         dataset.push(record);
                 });
                 console.log("Initializing twdc dataset completed. Total record fetched = "
@@ -42,8 +43,8 @@
                             result
                             ));
                 }
-                if (n === 0)
-                    break;
+//                if (n === 0)
+//                    break;
             }
             callback(records);
         };
