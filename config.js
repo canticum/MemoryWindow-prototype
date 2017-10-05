@@ -23,7 +23,9 @@ var LUNA = {
     SHOW_INTERVAL: 2500, //ms
     SHOW_STAY: 1500, //ms
     QRCODE: '@QR_CODE_TOKEN',
-    MIN_LOG: parseInt((LUNA.ROW * LUNA.COLUMN) / 8),
+    get MIN_LOGO(){
+        return parseInt((LUNA.ROW * LUNA.COLUMN) / 8);
+    },
     TITLE_RATIO: 0.6,
     TOP_HEIGHT_RATIO: 0.08,
     BOTTOM_HEIGHT_RATIO: 0.04,

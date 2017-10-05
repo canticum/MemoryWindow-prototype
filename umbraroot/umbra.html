@@ -10,14 +10,13 @@
         <script src="jquery/dist/jquery.min.js"></script>
         <script src="socket.io-client/dist/socket.io.js"></script>
         <script src="config.js"></script>
-        <!--        <script src="global.js"></script>-->
         <script>
             $(() => {
                 $('title').text(PROJECT.TITLE_MAIN + ' | ' + PROJECT.TITLE_ENGLISH);
                 $('h1').text(PROJECT.TITLE_MAIN);
                 $('h2').text(PROJECT.SUBTITLE);
-                $('h1').css('font-family', PROJECT.FONT);
-                $('h2').css('font-family', PROJECT.FONT);
+                $('h1').css('font-family', UMBRA.FONT);
+                $('h2').css('font-family', UMBRA.FONT);
                 $('.myButton').css('font-family', UMBRA.FONT);
                 $('img').attr('src', PROJECT.LOGO_PATH);
             });

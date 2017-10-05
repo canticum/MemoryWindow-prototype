@@ -133,8 +133,8 @@ $(function () {
             card = cards[row][col];
 //            console.log(row, col, cards.length, cards[row].length, card.is_logo, is_logo);
         } while (card.locked === true ||
-                (is_logo > LUNA.MIN_LOG && content !== LUNA.QRCODE && !card.is_logo));
-        //當卡片不是logo，並且版面上的logo多於LUNA.MIN_LOG
+                (is_logo > LUNA.MIN_LOGO && content !== LUNA.QRCODE && !card.is_logo));
+        //當卡片不是logo，並且版面上的logo多於LUNA.MIN_LOGO
         if (img_path == PROJECT.LOGO_PATH || content == LUNA.QRCODE) {
             if (!card.is_logo) {
                 is_logo++;
