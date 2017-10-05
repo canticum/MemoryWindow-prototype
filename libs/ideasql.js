@@ -7,15 +7,19 @@
     module.exports = function () {
         var methods = {};
 
-        methods.query = function (query_text, limit, callback) {
+        methods.get_url = function (query_text, limit) {
             var api = (query_text.split(" ").length > 1) ?
                     cf.IDEASQL.MULTI_URL : cf.IDEASQL.URL;
-            var url = api + encodeURIComponent(query_text) + "?limit=" + limit;
+            var url = api + encodeURIComponent(query_text) +
+                    ((limit > 0) ? "?limit=" + limit : "");
             console.log(decodeURIComponent(url));
+            return url;
+        };
 
+        methods.query = function (query_text, limit, callback) {
             var records = [];
             var count = 0;
-            json.fetch(url, (data) => {
+            json.fetch(methods.get_url(query_text, limit), (data) => {
 //        console.log("Total records: " + data.length);
                 if (data.length === 0)
                     next(0);
@@ -23,7 +27,7 @@
                     var record = new json.Record(rec.id, rec.content,
                             rec.img_link, JSON.parse(rec.detail_infos));
                     records.push(record);
-                    IsValidImageUrl(rec.img_link, (isValid) => {
+                    methods.IsValidImageUrl(rec.img_link, (isValid) => {
                         record.img_link_valid = isValid;
                         next(1);
                     });
@@ -48,11 +52,11 @@
             });
         };
 
-        function IsValidImageUrl(url, callback) {
+        methods.IsValidImageUrl = function(url, callback) {
             request.get(url, (error, response, body) => {
                 callback(!error && response.statusCode === 200);
             });
-        }
+        };
 
         methods.getWordbreak = function (content, callback) {
             var text = content;
