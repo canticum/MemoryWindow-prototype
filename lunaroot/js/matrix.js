@@ -32,6 +32,7 @@ $(function () {
         height: bottom_height,
         'font-size': font_size_bottom + "px"
     });
+
     var cards = new Array(LUNA.ROW);
     var is_logo = LUNA.COLUMN * LUNA.ROW;
     for (var row = 0; row < LUNA.ROW; row++) {
@@ -43,7 +44,7 @@ $(function () {
             var id = row + "_" + col;
             cards[row][col] = new Card(id, null, null);
             var card_div = document.createElement("div");
-            $(card_div).addClass('card viewport-flip left');
+            $(card_div).addClass("card viewport-flip left");
             $(card_div).attr("id", id);
             $(row_div).append(card_div);
         }
@@ -58,13 +59,12 @@ $(function () {
         width: (SIDE + LUNA.CARD.BORDER_WIDTH * 2) * LUNA.COLUMN
     });
     // initialize cards
-    $.getScript("./js/libs/create_card.js", function () {
-        create_card(PROJECT.LOGO_PATH, SIDE, LUNA.CARD.COLOR, (card_face) => {
-            $(card_face).addClass("face front flip in");
-            $(".card").append(card_face);
-        });
-        $(".face").css({width: SIDE, height: SIDE});
+    create_card(PROJECT.LOGO_PATH, SIDE, LUNA.CARD.COLOR, (card_face) => {
+        $(card_face).addClass("face front flip in");
+        $(".card").append(card_face);
     });
+    $(".face").css({width: SIDE, height: SIDE});
+
     $(".card").css({width: SIDE, height: SIDE}); //, border: LUNA.CARD.BORDER_WIDTH + "px solid #aaaaaa"
 
     var data_pool = new Map();
@@ -153,7 +153,15 @@ $(function () {
 //            canvas.height = SIDE;
 //            canvas.width = SIDE;
             qrcodelib.toCanvas(canvas, UMBRA.URL, function (err) {
-                card.set_next(canvas.toDataURL("image/png"));
+                var canvas_adj = document.createElement("canvas");
+                var ctx = canvas_adj.getContext('2d');
+                var ratio = 1.5;
+                canvas_adj.width = canvas.width * ratio;
+                canvas_adj.height = canvas.height * ratio;
+                ctx.fillStyle = LUNA.CARD.COLOR;
+                ctx.fillRect(0, 0, canvas.width * ratio, canvas.height * ratio);
+                ctx.drawImage(canvas, canvas.width * (ratio - 1) / 2, canvas.height * (ratio - 1) / 2);
+                card.set_next(canvas_adj.toDataURL("image/png"));
                 flip(card, SIDE, LUNA.CARD.COLOR, LUNA.CARD.BORDER_WIDTH,
                         LUNA.CARD.BORDER_STYLE, LUNA.CARD.BORDER_COLOR[1]);
             });

@@ -1,129 +1,51 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-        <!--        <title>記憶窗櫺 | Window of Memories</title>-->
         <title></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
         <link rel="stylesheet" href="./css/umbra_style.css"/>
         <script src="jquery/dist/jquery.min.js"></script>
         <script src="socket.io-client/dist/socket.io.js"></script>
         <script src="config.js"></script>
-        <script>
-            $(() => {
-                $('title').text(PROJECT.TITLE_MAIN + ' | ' + PROJECT.TITLE_ENGLISH);
-                $('h1').text(PROJECT.TITLE_MAIN);
-                $('h2').text(PROJECT.SUBTITLE);
-                $('h1').css('font-family', UMBRA.FONT);
-                $('h2').css('font-family', UMBRA.FONT);
-                $('.myButton').css('font-family', UMBRA.FONT);
-                $('img').attr('src', PROJECT.LOGO_PATH);
-            });
-        </script>
+        <script src="js/umbra.js"></script>
     </head>
     <body>
         <div style="display: flex; justify-content: center;">
-            <table border="0" style="width:auto; table-layout:auto;">
+            <table style="border:0; width:auto; table-layout:auto;">
                 <tbody>
                     <tr>
                         <td align="center" colspan="2">
-                            <h1> </h1>
-                            <h2> </h2>
+                            <h1></h1>
+                            <h2></h2>
                             <img onload="resizeImage()" src ="" alt="logo"/>
                         </td>
                     </tr>
                     <tr>
-                        <td height="55px" colspan="2">
-                <center>
-                    <div class="box">
-                        <div class="container-1">
-                            <div style="float:left">
-                                <span class="icon"><i class="fa fa-search"></i></span>
-                            </div>
-                            <input id="search" type="search" placeholder="請輸入查詢關鍵字">
-                        </div>
-                    </div>
-                </center> 
-                </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div id="message" class="left"></div>
-                    </td>
-                    <td>
-                        <button id="query" class="right myButton" type="button">送出</button>
-                    </td>
-                </tr>
+                        <td style="height:55px;" colspan="2">
+                            <div style="display: flex; justify-content: center;">
+                                <div class="box">
+                                    <div class="container-1">
+                                        <div style="float:left">
+                                            <span class="icon"><i class="fa fa-search"></i></span>
+                                        </div>
+                                        <input id="search" type="search" placeholder="請輸入查詢關鍵字">
+                                    </div>
+                                </div>
+                            </div> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div id="message" class="left"></div>
+                        </td>
+                        <td>
+                            <button id="query" class="right myButton" type="button">送出</button>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
-        </div>
-        <script>
-            $(function () {
-                var socket = io({
-                    query: {
-                        role: 'umbra'
-                    }
-                });
-
-                $("#search").keyup(function (event) {
-                    if (event.keyCode === 13) {
-                        $("#query").click();
-                    }
-                });
-                $("#search").focus(function (event) {
-                    $("#message").text(null);
-                });
-                $('#query').click(function (event) {
-                    var text = $('#search').val().trim();
-                    if (text.length > 0) {
-                        $('#query').attr('disabled', true);
-                        $("#search").attr('disabled', true);
-                        $('#message').text('處理中...');
-                        socket.emit("query", {
-                            client: socket.id,
-                            text: text
-                        });
-                    }
-                });
-                socket.on('message', function (data) {
-                    if (data.user === socket.id) {
-                        $('#query').attr('disabled', false);
-                        $("#search").attr('disabled', false);
-                        $('#message').text(data.message);
-                        $("#search").val(null);
-                    }
-                });
-            });
-            //        const WT = window.screen.availWidth - 10, HT = window.screen.availHeight;
-            function resizeImage()
-            {
-                var window_height = document.body.clientHeight;
-                var window_width = document.body.clientWidth;
-                var image_width = document.images[0].width;
-                var image_height = document.images[0].height;
-                var height_ratio = image_height / window_height;
-                var width_ratio = image_width / window_width;
-
-                if (height_ratio > width_ratio)
-                {
-                    document.images[0].style.width = "auto";
-                    document.images[0].style.height = "75%";
-                } else
-                {
-                    document.images[0].style.width = "75%";
-                    document.images[0].style.height = "auto";
-                }
-
-                if (document.body.clientWidth > 300)
-                {
-                    document.images[0].style.width = 300;
-                    document.images[0].style.height = 300;
-                }
-                $('.box').css('width', document.images[0].style.width * 1.1);
-                $('.container-1').css('width', document.images[0].style.width * 1.1);
-                $('#search').css('width', document.images[0].style.width * 1.1);
-            }
-        </script>
+        </div>       
     </body>
 </html>
