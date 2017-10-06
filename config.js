@@ -15,18 +15,19 @@ var LUNA = {
     CARD: {
         BORDER_WIDTH: 10,
         BORDER_STYLE: 'inset',
-        BORDER_COLOR: ['#cecece', 'springgreen'], //#3333ff'
-        COLOR: '#373737'
+        BORDER_COLOR: ['Silver', 'White'], //#cecece springgreen //#3333ff'
+        COLOR: '#121212' //'DimGrey'//#373737'
     },
     FLIP_TIME_OUT: 5000, //ms
     SYSTEM_LOGO_TIME_OUT: 7000, //ms
     SHOW_INTERVAL: 2500, //ms
     SHOW_STAY: 1500, //ms
     QRCODE: '@QR_CODE_TOKEN',
-    get MIN_LOGO(){
+    get MIN_LOGO() {
         return parseInt((LUNA.ROW * LUNA.COLUMN) / 8);
     },
     TITLE_RATIO: 0.6,
+    TITLE_COLOR: 'Silver',
     TOP_HEIGHT_RATIO: 0.08,
     BOTTOM_HEIGHT_RATIO: 0.04,
     MOD: function (row) {
@@ -42,7 +43,8 @@ var LUNA = {
 
 var UMBRA = {
     URL: 'http://wm.localstudies.tw',
-    FONT: "DFKai-sb"
+    FONT: "DFKai-sb",
+    TITLE_COLOR: 'Silver'
 };
 
 var DATA = {
