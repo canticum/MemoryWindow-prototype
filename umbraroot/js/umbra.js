@@ -4,6 +4,7 @@ $(() => {
     $('title').text(PROJECT.TITLE_MAIN + ' | ' + PROJECT.TITLE_ENGLISH);
     $('h1').text(PROJECT.TITLE_MAIN);
     $('h2').text(PROJECT.SUBTITLE);
+    $('h3').text('Ver.'+PROJECT.VERSION);
     $('h1').css({
         'font-family': UMBRA.FONT,
         color: UMBRA.TITLE_COLOR
@@ -12,8 +13,15 @@ $(() => {
         'font-family': UMBRA.FONT,
         color: UMBRA.TITLE_COLOR
     });
+    $('h2').css({
+        'font-family': UMBRA.FONT,
+        color: UMBRA.TITLE_COLOR
+    });
+    $('h3').css({
+        color: UMBRA.TITLE_COLOR
+    });
     $('.myButton').css('font-family', UMBRA.FONT);
-    $('img').attr('src', PROJECT.LOGO_PATH);
+    $('#logo').attr('src', PROJECT.LOGO_PATH);
 
     var socket = io({
         query: {

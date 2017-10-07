@@ -23,9 +23,10 @@ function create_card(img_path, side, bg_color, callback) {
                 img.width * side / img.height :
                 img.height * side / img.width;
         window.EXIF.getData(img, function () {
-            var orientation = window.EXIF.getTag(this, "Orientation");
+//            var orientation = window.EXIF.getTag(this, "Orientation");
             var img_transformed = window.loadImage.scale(img, {
-                orientation: orientation || 0, canvas: false,
+//                orientation: orientation || 0, 
+                canvas: false,
                 maxWidth: max, maxHeight: max
             });
             $(img_transformed).addClass('img');

@@ -6,7 +6,7 @@ var PROJECT = {
         return this.TITLE_MAIN + "—" + this.SUBTITLE;
     },
     LOGO_PATH: "./element/logo_2.png",
-    VERSION: "0.53-beta"
+    VERSION: "0.53a-beta"
 };
 
 var LUNA = {

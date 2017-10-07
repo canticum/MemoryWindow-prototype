@@ -2,7 +2,7 @@ body {
     background: #343d46;
     color: #ffffff;
 }
-div img {
+#logo {
     max-width:500px;
     width:500px;
     overflow:hidden;

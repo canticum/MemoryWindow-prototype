@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>記憶窗櫺 | Window of Memories</title>
+        <title>Title</title>
         <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
         <link rel="icon" href="/favicon.ico"/>
         <link rel="stylesheet" href="./css/luna_style.css"/>
@@ -11,7 +11,7 @@
         <script src="jquery/dist/jquery.min.js"></script>
         <script src="socket.io-client/dist/socket.io.js"></script>
         <script src="qrcode/build/qrcode.js"></script>
-        <script src="./js/matrix.js"></script>
+        <script src="./js/luna.js"></script>
         <script src="./js/libs/wrap_div.js"></script>
         <script src="./js/libs/draw_text.js"></script>
         <script src="./js/libs/card_flip.js"></script>
@@ -30,17 +30,15 @@
     </head>
     <body>
         <div class="box top center">
-            <div style="display: table-cell; vertical-align: middle;">
-                <div id="title_text">
-                </div>
+            <div class="inner-box">
+                <div id="title_text">Title</div>
             </div>
         </div>
         <div id="display">         
         </div>
         <div class="box bottom center">
-            <div style="display: table-cell; vertical-align: middle;">
-                <div id="version_text">
-                </div>
+            <div class="inner-box">
+                <div id="version_text">Version</div>
             </div>
         </div>
     </body>

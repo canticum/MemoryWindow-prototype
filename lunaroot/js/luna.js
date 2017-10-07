@@ -1,5 +1,4 @@
 /* global UMBRA, qrcodelib, PROJECT, LUNA */
-'use strict';
 
 var socket = io({
     query: {
@@ -8,6 +7,7 @@ var socket = io({
 });
 
 $(function () {
+    'use strict';
     var WT = window.screen.availWidth - 10, HT = window.screen.availHeight;
     var top_height = HT * LUNA.TOP_HEIGHT_RATIO;
     var bottom_height = HT * LUNA.BOTTOM_HEIGHT_RATIO;

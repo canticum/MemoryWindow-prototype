@@ -7,8 +7,12 @@ html, body {
 .box{
     display: table;
     overflow: hidden;
-    text-align: center;
+}
+.inner-box{
     font-weight: bolder;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
 }
 .center {
     margin: auto;
@@ -70,7 +74,6 @@ html, body {
     margin: auto;
     position: relative;
 }
-
 .face {
     position: absolute;
     /*object-fit: contain;*/
